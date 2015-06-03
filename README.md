@@ -3,7 +3,7 @@ Tags all substrings (or tokens) existing as place names in the geonames gazettee
 
 ## Usage ##
 Download the `allCountries.zip` file from the geonames Web site and
-extract the `allCountries.txt` file anywhere in your file system (e.g., the `geonames_tagger/data` folder. 
+extract the `allCountries.txt` file (e.g., into the `geonames_tagger/data` folder). 
 
 ### Create index ###
 Needs ~1 hour on MacBook Pro and 4.9GB of RAM:

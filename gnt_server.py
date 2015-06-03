@@ -36,8 +36,13 @@ class GNTHandler(BaseHTTPServer.BaseHTTPRequestHandler):
         if "text" not in params:
             resp = json.dumps({"success": 0, "msg": "no 'text' parameters provided!"})
         else:
+            bound_chars = None
+            if "bound_chars" in params:
+                bound_chars = params["bound_chars"][0]
+                if bound_chars == "":
+                    bound_chars = None
             text = params["text"][0].lower()
-            matches = GNTHandler.gnt.parse(text)
+            matches = GNTHandler.gnt.parse(text, bound_chars)
             resp = json.dumps(matches)
         self.wfile.write(resp)
 

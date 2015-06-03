@@ -31,9 +31,10 @@ class GNTagger:
         self.value2IDs = load_IDs(fn_value2IDs)
         out("done\n")
 
-    def parse(self, text):
+    def parse(self, text, bound_chars):
         text = text.strip().decode("utf-8")
-        matches = self.trie.match(text, bound_chars=" .,;:_-!?=()[]{}'\"$%&")
+        # bound_chars = " .,;:_-!?=()[]{}'\"$%&"
+        matches = self.trie.match(text, bound_chars=bound_chars)
         result = {"success": 1, "n_matches": len(matches), "matches": []}
         for match in matches:
             key, value, pos = match

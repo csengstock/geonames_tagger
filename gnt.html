@@ -45,18 +45,21 @@ Aho-Corasick string matching on 10,560,502 place names in O(len(text)) time.
 </div>
 <div>
 <textarea name="text" id="text">
-Heidelberg (German pronunciation: [&#712;ha&#618;d&#601;lb&#603;&#641;k]&#160;(&#65532; listen)) is a town situated on theRiver Neckar in south-west Germany. The fifth-largest town in the State of Baden-W&#252;rttemberg after Stuttgart, Karlsruhe, Mannheim and Freiburg im Breisgau, Heidelberg is part of the densely populated Rhine-Neckar Metropolitan Region. In 2011, over 149,000 people lived in the city.
+Heidelberg (German pronunciation: [&#712;ha&#618;d&#601;lb&#603;&#641;k]&#160;(&#65532; listen)) is a town situated on the River Neckar in south-west Germany. The fifth-largest town in the State of Baden-W&#252;rttemberg after Stuttgart, Karlsruhe, Mannheim and Freiburg im Breisgau, Heidelberg is part of the densely populated Rhine-Neckar Metropolitan Region. In 2011, over 149,000 people lived in the city.
 </textarea>
 </div>
 <div>
 <button id="tag_action" type="button" onclick="javascript:query()">Tag Text</button></div>
-<div> 
+<div>
+<input type="text" id="bound_chars" value=' !?/()[]{}$".,;:-_&quot;' /> Token boundary chars (leave empty for substring search)
+</div>
+<div>
 <input type="checkbox" id="only_tokens"/> Only output matched tokens (not the geonames records)
 </div>
 <div id="result"></div>
 <script>
 function query() {
-    $.post("http://kalyke.ifi.uni-heidelberg.de:55555", {"text": $("#text").val()}, function(data) {
+    $.post("http://localhost:55555", {"text": $("#text").val(), "bound_chars": $("#bound_chars").val()}, function(data) {
             if(data["success"] == 0) alert("Problem with server: " + data["msg"]);
             else {
                 html = "<h2>Number of matched tokens: " + data["n_matches"] + "</h2>\n";

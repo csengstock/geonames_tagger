@@ -23,6 +23,8 @@ from urlparse import urlparse, parse_qs
 import json
 from gn_tagger import GNTagger
 
+_HTML_FN = "gnt.html"
+
 class GNTHandler(BaseHTTPServer.BaseHTTPRequestHandler):
     gnt = None
 
@@ -40,7 +42,17 @@ class GNTHandler(BaseHTTPServer.BaseHTTPRequestHandler):
         self.wfile.write(resp)
 
     def do_GET(self):
-        self._process_parse(self._GET_params())
+        print self.path
+        if self.path.startswith("/gnt.html"):
+            fp = open(_HTML_FN, "r")
+            html = fp.read()
+            fp.close()
+            self.send_response(200)
+            self.send_header("Content-type", "text/html")
+            self.end_headers()
+            self.wfile.write(html)
+        else:
+            self._process_parse(self._GET_params())
 
     def do_POST(self):
         self._process_parse(self._POST_params())

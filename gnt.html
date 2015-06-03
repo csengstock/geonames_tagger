@@ -1,0 +1,80 @@
+<html>
+<head>
+<title>Geonames Tagger</title>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<style>
+body {
+    font-size: 1em;
+    font-family: Sans-serif;
+}
+h1,h2,p,div {
+    padding: 0;
+    margin: 0;
+}
+div {
+    padding: 0.5em 0;
+}
+div.res_token {
+    padding: 0.3em 0;
+}
+div.res_gnrec {
+    padding: 0.3em 0;
+    color: #555;
+    font-size: 0.8em;
+}
+textarea {
+    font-size: 1em;
+    width: 100%;
+    height: 30%;
+}
+button {
+    font-size: 1em;
+}
+</style>
+</head>
+
+<body>
+<div>
+<h1>Geonames Tagger</h1>
+</div>
+<div>
+Aho-Corasick string matching on 10,560,502 place names in O(len(text)) time.
+</div>
+<div>
+<h2>Input Text:</h2>
+</div>
+<div>
+<textarea name="text" id="text">
+Heidelberg (German pronunciation: [&#712;ha&#618;d&#601;lb&#603;&#641;k]&#160;(&#65532; listen)) is a town situated on theRiver Neckar in south-west Germany. The fifth-largest town in the State of Baden-W&#252;rttemberg after Stuttgart, Karlsruhe, Mannheim and Freiburg im Breisgau, Heidelberg is part of the densely populated Rhine-Neckar Metropolitan Region. In 2011, over 149,000 people lived in the city.
+</textarea>
+</div>
+<div>
+<button id="tag_action" type="button" onclick="javascript:query()">Tag Text</button></div>
+<div> 
+<input type="checkbox" id="only_tokens"/> Only output matched tokens (not the geonames records)
+</div>
+<div id="result"></div>
+<script>
+function query() {
+    $.post("http://kalyke:55555", {"text": $("#text").val()}, function(data) {
+            if(data["success"] == 0) alert("Problem with server: " + data["msg"]);
+            else {
+                html = "<h2>Number of matched tokens: " + data["n_matches"] + "</h2>\n";
+                $.each(data["matches"], function(i,vi) {
+                    html += "<hr/>";
+                    html += "<div class=\"res_token res\">"+ (i+1) + ": \"" + vi["token"] + "\" (pos: "+ vi["idx"]+")</div>\n";
+                    if(!$("#only_tokens").is(':checked')) {
+                        $.each(vi["gnrecs"], function(j, vj) {
+                            html += "<div class=\"res_gnrec res\">" + vj + "</div>\n";
+                        });
+                    }
+                })
+                $("#result").html(html);
+            }
+        },
+        "json"
+    );
+}
+</script>
+
+</body>

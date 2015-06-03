@@ -56,7 +56,7 @@ Heidelberg (German pronunciation: [&#712;ha&#618;d&#601;lb&#603;&#641;k]&#160;(&
 <div id="result"></div>
 <script>
 function query() {
-    $.post("http://kalyke:55555", {"text": $("#text").val()}, function(data) {
+    $.post("http://kalyke.ifi.uni-heidelberg.de:55555", {"text": $("#text").val()}, function(data) {
             if(data["success"] == 0) alert("Problem with server: " + data["msg"]);
             else {
                 html = "<h2>Number of matched tokens: " + data["n_matches"] + "</h2>\n";

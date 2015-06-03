@@ -24,6 +24,14 @@ Or, make http POST request directly (returns the result as json):
 http://localhost:55555/service
 POST parameter: text=<utf-8 encoded text>
 ```
+Using curl (POST):
+```
+$ curl --data "text=the text to parse" http://localhost:55555
+```
+Using curl (GET):
+```
+$ curl http://localhost:55555?text=aplacename
+```
 The resulting json looks like:
 ```
 { 
